@@ -50,25 +50,34 @@ def get_lista_marcas(lista_marcas):
 
 def get_lista_modelos(lista_modelos,combustivel):
     lista_modelo = []
-    for modelo in lista_modelos:
-        lista_modelo.append(modelo['Label'])
-    # print(lista_modelo)
-    if combustivel == 3:
-        # print(check_se_diesel(lista_modelo))
-        return check_se_diesel(lista_modelo)
-    if combustivel == 1:
-        return lista_modelo 
+    try:
+        for modelo in lista_modelos:
+            # print(lista_modelos)
+            lista_modelo.append(modelo['Label'])
+        # print(lista_modelo)
+        if combustivel == 3:
+            # print(check_se_diesel(lista_modelo))
+            return check_se_diesel(lista_modelo)
+        if combustivel == 1:
+            return lista_modelo
+    except:
+        print("Erro")
+    
 
-def lista_ano_combustivel():
+def lista_ano_combustivel(tipo):
     TEMPO = 70
     year = get_ano()
     year_stop = year - TEMPO
     gasolina = "Gasolina"
     diesel = "Diesel"
     ano_combustivel = []
-    for i in range(year, year_stop, -1):
-        ano_combustivel.append(str(i)+"-"+gasolina)
-        ano_combustivel.append(str(i)+"-"+diesel)
+    if tipo == 2:
+        for i in range(year, year_stop, -1):
+            ano_combustivel.append(str(i)+"-"+gasolina)
+    else:
+        for i in range(year, year_stop, -1):
+            ano_combustivel.append(str(i)+"-"+gasolina)
+            ano_combustivel.append(str(i)+"-"+diesel)
     return ano_combustivel
 
 def get_ano_combustivel(ano_combustivel):
