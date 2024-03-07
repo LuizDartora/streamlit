@@ -88,31 +88,34 @@ if(option_tempo != None):
       st.write("Nenhum modelo encontrado")
 # periodo_referencia, tipo, cod_marca, ano_combustivel, ano_modelo, cod_modelo, combustivel,tempo
 if st.button('Consultar'):
-    tipo = helper.get_tipo(option_tipo)
-   #  print(option_modelo)
-   #  print(lista_modelos)
-    cod_modelo = helper.get_cod_modelo(option_modelo,lista_modelos)
-    st.write(option_modelo)
-   #  st.write("A consulta está sendo feita com os seguintes dados "  +" "+str(tipo) +" "+str(cod_marca) +" "+str(ano_combustivel) +" "+str(ano) +" "+str(cod_modelo) +" "+str(combustivel))
-    lista_de_valores = fipe.get_valor_veiculo_modelo(ref,tipo,cod_marca, ano_combustivel, ano, cod_modelo, combustivel,option_historico)
-   #  print(lista_de_valores)
-    df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
-    df['Valor Numerico'] = df['Preço'].replace('[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
-    min_valor = df['Valor Numerico'].min()
-    max_valor = df['Valor Numerico'].max()
-   #  st.write(df)
-    line = alt.Chart(df).mark_line(point=alt.OverlayMarkDef(filled=False, fill="white", size=100), size=5).encode(
-        alt.X('Data',sort=None, axis=alt.Axis(grid=True) ),
-        alt.Y('Valor Numerico:Q', sort="ascending", axis=alt.Axis(grid=True,format='$,.2f'), title="FIPE", scale=alt.Scale(domain=[min_valor, max_valor]))
-    ).interactive()
-   #  points = alt.Chart(df).mark_point(size=200).encode(
-   #      alt.X('Data',sort=None, axis=alt.Axis(grid=True)),
-   #      alt.Y('Preço', sort="descending", axis=alt.Axis(grid=True))  
-   #  )
-   #  chart = line + points
-    chart = line
-    
-    st.altair_chart(chart, use_container_width=True)
+    try:
+      tipo = helper.get_tipo(option_tipo)
+      #  print(option_modelo)
+      #  print(lista_modelos)
+      cod_modelo = helper.get_cod_modelo(option_modelo,lista_modelos)
+      st.write(option_modelo)
+      #  st.write("A consulta está sendo feita com os seguintes dados "  +" "+str(tipo) +" "+str(cod_marca) +" "+str(ano_combustivel) +" "+str(ano) +" "+str(cod_modelo) +" "+str(combustivel))
+      lista_de_valores = fipe.get_valor_veiculo_modelo(ref,tipo,cod_marca, ano_combustivel, ano, cod_modelo, combustivel,option_historico)
+      #  print(lista_de_valores)
+      df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
+      df['Valor Numerico'] = df['Preço'].replace('[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
+      min_valor = df['Valor Numerico'].min()
+      max_valor = df['Valor Numerico'].max()
+      #  st.write(df)
+      line = alt.Chart(df).mark_line(point=alt.OverlayMarkDef(filled=False, fill="white", size=100), size=5).encode(
+         alt.X('Data',sort=None, axis=alt.Axis(grid=True) ),
+         alt.Y('Valor Numerico:Q', sort="ascending", axis=alt.Axis(grid=True,format='$,.2f'), title="FIPE", scale=alt.Scale(domain=[min_valor, max_valor]))
+      ).interactive()
+      #  points = alt.Chart(df).mark_point(size=200).encode(
+      #      alt.X('Data',sort=None, axis=alt.Axis(grid=True)),
+      #      alt.Y('Preço', sort="descending", axis=alt.Axis(grid=True))  
+      #  )
+      #  chart = line + points
+      chart = line
+      
+      st.altair_chart(chart, use_container_width=True)
+    except:
+      st.write("Impossível pesquisar")
 
 # FIM NOVO
 
