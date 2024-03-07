@@ -84,6 +84,7 @@ def get_valor_veiculo_modelo(periodo_referencia, tipo, cod_marca, ano_combustive
             lista_fipe = response.json()
             # print(lista_fipe)
             # print(body)
+            
             tablePreco = {
                     'Preço': lista_fipe['Valor'],
                     'Data': periodo_referencia[i]['Mes']
