@@ -119,7 +119,7 @@ def check_se_diesel(lista_modelos):
 def make_graph(df, min_value, max_value):
     chart = alt.Chart(df).mark_line(point=alt.OverlayMarkDef(filled=False, fill="white", size=100), size=5).encode(
         alt.X('Data',sort=None, axis=alt.Axis(grid=True) ),
-        alt.Y('Valor Numerico:Q', sort="ascending", axis=alt.Axis(grid=True,format='$,.2f'), title="FIPE", scale=alt.Scale(domain=[min_value, max_value]))
+        alt.Y('Valor Numerico:Q', sort="ascending", axis=alt.Axis(grid=True,format='$,.2f'), title="FIPE", scale=alt.Scale(domain=[min_value-(min_value * 0.01), max_value+(max_value * 0.01)]))
     ).interactive()
     st.altair_chart(chart, use_container_width=True)
 
