@@ -38,57 +38,58 @@ import helper
 #Fim antigo por codigo
 
 # NOVO
-ref = fipe.get_periodo_referencia()
-option_tipo = st.selectbox(
-   "Selecione o tipo de veículo:",
-   ("Carro", "Moto", "Caminhão"),
-   index=0,
-   placeholder="Escolha uma opção"
-)
-if option_tipo != None:
-   tipo = helper.get_tipo(option_tipo)
-   lista_marcas = fipe.get_marcas(ref,tipo)
-   marca = helper.get_lista_marcas(lista_marcas)
-   option_marca = st.selectbox(
-      "Selecione a marca do veículo:",
-      marca,
-      index=None,
+with st.expander("Selecionar veículo",expanded=True):
+   ref = fipe.get_periodo_referencia()
+   option_tipo = st.selectbox(
+      "Selecione o tipo de veículo:",
+      ("Carro", "Moto", "Caminhão"),
+      index=0,
       placeholder="Escolha uma opção"
    )
-   
+   if option_tipo != None:
+      tipo = helper.get_tipo(option_tipo)
+      lista_marcas = fipe.get_marcas(ref,tipo)
+      marca = helper.get_lista_marcas(lista_marcas)
+      option_marca = st.selectbox(
+         "Selecione a marca do veículo:",
+         marca,
+         index=None,
+         placeholder="Escolha uma opção"
+      )
+      
 
-# if option_marca != None:
-   option_tempo = st.selectbox(
-   "Selecione o ano do modelo:",
-   helper.lista_ano_combustivel(tipo),
-   index=None,
-   placeholder="Escolha uma opção", disabled=False
-   )
-
-if(option_tempo != None):
-   try:
-      ano,combustivel,ano_combustivel = helper.get_ano_combustivel(option_tempo)
-      cod_marca = helper.get_cod_marca(option_marca,lista_marcas)
-      lista_modelos,comb = fipe.get_marcas_modelo(ref, tipo, ano, ano_combustivel, cod_marca, combustivel)
-      modelos = helper.get_lista_modelos(lista_modelos,comb)
-      option_modelo = st.selectbox(
-      "Selecione o modelo:",
-      modelos,
+   # if option_marca != None:
+      option_tempo = st.selectbox(
+      "Selecione o ano do modelo:",
+      helper.lista_ano_combustivel(tipo),
       index=None,
       placeholder="Escolha uma opção", disabled=False
       )
 
-      option_historico = st.selectbox(
-      "Selecione o tempo do histórico:",
-      helper.get_max_anos_consulta(ano),
-      index=None,
-      placeholder="Escolha uma opção", disabled=False
-      )
-   except:
-      st.write("Nenhum modelo encontrado")
-# periodo_referencia, tipo, cod_marca, ano_combustivel, ano_modelo, cod_modelo, combustivel,tempo
+   if(option_tempo != None):
+      try:
+         ano,combustivel,ano_combustivel = helper.get_ano_combustivel(option_tempo)
+         cod_marca = helper.get_cod_marca(option_marca,lista_marcas)
+         lista_modelos,comb = fipe.get_marcas_modelo(ref, tipo, ano, ano_combustivel, cod_marca, combustivel)
+         modelos = helper.get_lista_modelos(lista_modelos,comb)
+         option_modelo = st.selectbox(
+         "Selecione o modelo:",
+         modelos,
+         index=None,
+         placeholder="Escolha uma opção", disabled=False
+         )
+
+         option_historico = st.selectbox(
+         "Selecione o tempo do histórico:",
+         helper.get_max_anos_consulta(ano),
+         index=None,
+         placeholder="Escolha uma opção", disabled=False
+         )
+      except:
+         st.write("Nenhum modelo encontrado")
+   # periodo_referencia, tipo, cod_marca, ano_combustivel, ano_modelo, cod_modelo, combustivel,tempo
 if st.button('Consultar'):
-    try:
+   try:
       with st.spinner('Carregando informações'):
          tipo = helper.get_tipo(option_tipo)
          #  print(option_modelo)
@@ -106,7 +107,7 @@ if st.button('Consultar'):
          # st.write(df)
          st.write(helper.data_frame_min_max(lista_de_valores))
          helper.make_graph(df,min_valor,max_valor)
-    except:
+   except:
       st.write("Impossível pesquisar")
 
 # FIM NOVO
