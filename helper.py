@@ -124,18 +124,18 @@ def make_graph(df, min_value, max_value):
     st.altair_chart(chart, use_container_width=True)
 
 def data_frame_graph(lista_de_valores):
-    df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
-    df['Valor Numerico'] = df['Preço'].replace(r'[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
-    min_valor = df['Valor Numerico'].min()
-    max_valor = df['Valor Numerico'].max()
+    # df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
+    # df['Valor Numerico'] = df['Preço'].replace(r'[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
+    min_valor = lista_de_valores['Valor Numerico'].min()
+    max_valor = lista_de_valores['Valor Numerico'].max()
 
-    return df,min_valor,max_valor
+    return min_valor,max_valor
 
 def data_frame_min_max(lista_de_valores):
-    df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
-    df['Valor Numerico'] = df['Preço'].replace(r'[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
-    min = df['Valor Numerico'].idxmin()
-    max = df['Valor Numerico'].idxmax()
+    # df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
+    # df['Valor Numerico'] = df['Preço'].replace(r'[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
+    min = lista_de_valores['Valor Numerico'].idxmin()
+    max = lista_de_valores['Valor Numerico'].idxmax()
     # print(min)
     # print(max)
     cols = ["Data","Fipe"]
@@ -144,73 +144,50 @@ def data_frame_min_max(lista_de_valores):
         "Preço máximo",
         ]
     data = [
-        ([df['Data'][min]],[df['Preço'][min]]),
-        ([df['Data'][max]],[df['Preço'][max]])]
+        ([lista_de_valores['Data'][min]],[lista_de_valores['Preço'][min]]),
+        ([lista_de_valores['Data'][max]],[lista_de_valores['Preço'][max]])]
     new_df = pd.DataFrame(data,columns=cols, index=rows)
     
     return new_df
 
 def media(lista_de_valores):
-    df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
-    df['Valor Numerico'] = df['Preço'].replace(r'[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
-    media = round(df['Valor Numerico'].mean(),2)
+    # df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
+    # df['Valor Numerico'] = df['Preço'].replace(r'[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
+    media = round(lista_de_valores['Valor Numerico'].mean(),2)
     media = decimal.Decimal(media).quantize(decimal.Decimal("0.00"))
-    
-    # if len(str(media)) <=8:
-    #     centavos = str(media)[len(str(media))-2:]
-    #     centenas = str(media)[len(str(media))-6:len(str(media))-3]
-    #     milhares = str(media)[:len(str(media))-6]
-    #     print("--------------------------------------------------")
-    #     print(media)
-    #     print(centavos)
-    #     print(centenas)
-    #     print(milhares)
-    # if len(str(media)) >=9:
+
     #     centavos = str(media)[len(str(media))-2:]
     #     centenas = str(media)[len(str(media))-6:len(str(media))-3]
     #     milhares = str(media)[len(str(media))-9:len(str(media))-6]
     #     milhoes = str(media)[:len(str(media))-7]
-    #     print("--------------------------------------------------")
-    #     print(media)
-    #     print(centavos)
-    #     print(centenas)
-    #     print(milhares)
-    #     print(milhoes)
 
     return moeda(media)
 
 
 def moeda(valor):
     centavos = str(valor)[len(str(valor))-2:]
-    print("------------------------------")
-    
-    # print(int(int(len(str(int(media))))/3))
-    # qtd = int(int(len(str(int(media))))/3)
-    # print(qtd)
     novo_media = str(int(valor))
-    print(novo_media)
-    print("------------------------------")
+
     ponto = 1
     letra2 = ""
     controle = 1
-    # while count != qtd:
+
     for letra in novo_media[::-1]:
         letra2+=str(letra)
-        # print(letra2)
-        # for num in len(novo_media):
-        #     print(num)
-        # print(len(novo_media))
         if ponto == 3 and controle < len(novo_media):
-            
             letra2 = letra2 + "."
             ponto = 0
         controle+=1
         ponto += 1
         # count+=1
-    print(letra2)
     letra23 =""
     for letra in letra2[::-1]:
         letra23+=str(letra)
-    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
     formatado = "R$ "+letra23+","+centavos
     return formatado
+
+def make_data_frame(lista_de_valores):
+    # print("Chegou aqui")
+    df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
+    df['Valor Numerico'] = df['Preço'].replace(r'[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
+    return df
