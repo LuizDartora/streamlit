@@ -97,18 +97,35 @@ if st.button('Consultar'):
          cod_modelo = helper.get_cod_modelo(option_modelo,lista_modelos)
          #  st.write("A consulta está sendo feita com os seguintes dados "  +" "+str(tipo) +" "+str(cod_marca) +" "+str(ano_combustivel) +" "+str(ano) +" "+str(cod_modelo) +" "+str(combustivel))
          lista_de_valores = fipe.get_valor_veiculo_modelo(ref,tipo,cod_marca, ano_combustivel, ano, cod_modelo, combustivel,option_historico)
-         st.subheader(option_marca,divider="red")
-         st.header(option_modelo)
+         st.subheader(option_marca,divider="red", anchor=False)
+         st.header(option_modelo, anchor=False)
          st.write(option_tempo)
-         st.markdown("**Fipe atual "+lista_de_valores[len(lista_de_valores)-1]['Preço']+"**")
+         fipe_atual = "**Fipe atual "+lista_de_valores[len(lista_de_valores)-1]['Preço']+"**"
+         st.markdown(fipe_atual)
          lista_de_valores = helper.make_data_frame(lista_de_valores)
-         st.write("Valor médio no período "+helper.media(lista_de_valores))
+         valor_medio = "Valor médio no período "+helper.media(lista_de_valores)
+         st.write(valor_medio)
          # print(lista_de_valores)
          # st.write(lista_de_valores)
          min_valor,max_valor = helper.data_frame_graph(lista_de_valores)
          # st.write(df)
-         st.write(helper.data_frame_min_max(lista_de_valores))
+         min_max = st.write(helper.data_frame_min_max(lista_de_valores))
          helper.make_graph(lista_de_valores,min_valor,max_valor)
+         min_max = helper.data_frame_min_max(lista_de_valores)
+
+         historico = {
+            "marca" : option_marca,
+            "modelo" : option_modelo,
+            "tempo" : option_tempo,
+            "fipe" : fipe_atual,
+            "medio" : valor_medio,
+            "min_max" : min_max,
+            "lista_valor" : lista_de_valores,
+            "min" : min_valor,
+            "max" : max_valor
+         }
+         helper.add_historico(historico)
+
    except:
       st.write("Impossível pesquisar")
 

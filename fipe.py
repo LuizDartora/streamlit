@@ -7,13 +7,13 @@ api_url_completa = "http://veiculos.fipe.org.br/api/veiculos/ConsultarValorComTo
 api_url_referencia = "http://veiculos.fipe.org.br/api/veiculos/ConsultarTabelaDeReferencia"
 api_url = "http://veiculos.fipe.org.br/api/veiculos/"
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_periodo_referencia():
     response = requests.post(api_url_referencia, headers=headers)
     lista_ref = response.json()
     return lista_ref
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_marcas_modelo(periodo_referencia, tipo, ano_modelo, ano_combustivel, cod_marca, combustivel):
     api_url_modelo = api_url + "ConsultarModelosAtravesDoAno"
     body = {
@@ -31,7 +31,7 @@ def get_marcas_modelo(periodo_referencia, tipo, ano_modelo, ano_combustivel, cod
     return lista_modelos,combustivel
     
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_marcas(periodo_referencia,tipo):
     api_url_marcas = api_url + "ConsultarMarcas"
     # print(api_url_marcas)
@@ -46,7 +46,7 @@ def get_marcas(periodo_referencia,tipo):
     # print(marcas)
     return marcas
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def get_valor_veiculo(periodo_referencia, tipo, ano_modelo, cod_fipe, combustivel,tempo):
     listaPreco=[]
     for i in range(tempo, -1, -1):

@@ -121,7 +121,9 @@ def make_graph(df, min_value, max_value):
         alt.X('Data',sort=None, axis=alt.Axis(grid=True) ),
         alt.Y('Valor Numerico:Q', sort="ascending", axis=alt.Axis(grid=True,format='$,.2f'), title="FIPE", scale=alt.Scale(domain=[min_value-(min_value * 0.01), max_value+(max_value * 0.01)]))
     ).interactive()
-    st.altair_chart(chart, use_container_width=True)
+    return st.altair_chart(chart, use_container_width=True)
+    
+    
 
 def data_frame_graph(lista_de_valores):
     # df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
@@ -191,3 +193,13 @@ def make_data_frame(lista_de_valores):
     df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
     df['Valor Numerico'] = df['Preço'].replace(r'[^\d,]', '', regex=True).str.replace(',', '.').astype(float)
     return df
+
+
+lista_historico = []
+# @st.cache_data(show_spinner=False)
+def add_historico(historico):
+    lista_historico.insert(0,historico)
+    # print(lista_historico)
+# @st.cache_data(show_spinner=False)
+def get_historico():
+    return lista_historico
