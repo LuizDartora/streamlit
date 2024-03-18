@@ -122,7 +122,8 @@ if st.button('Consultar'):
             "min_max" : min_max,
             "lista_valor" : lista_de_valores,
             "min" : min_valor,
-            "max" : max_valor
+            "max" : max_valor,
+            "historico" : option_historico
          }
          helper.add_historico(historico)
 

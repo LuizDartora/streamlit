@@ -118,12 +118,14 @@ def check_se_diesel(lista_modelos):
 
 def make_graph(df, min_value, max_value):
     chart = alt.Chart(df).mark_line(point=alt.OverlayMarkDef(filled=False, fill="white", size=100), size=5).encode(
-        alt.X('Data',sort=None, axis=alt.Axis(grid=True) ),
+        alt.X('Data',sort=None, axis=alt.Axis(grid=True)),
         alt.Y('Valor Numerico:Q', sort="ascending", axis=alt.Axis(grid=True,format='$,.2f'), title="FIPE", scale=alt.Scale(domain=[min_value-(min_value * 0.01), max_value+(max_value * 0.01)]))
     ).interactive()
     return st.altair_chart(chart, use_container_width=True)
     
     
+
+
 
 def data_frame_graph(lista_de_valores):
     # df = pd.DataFrame(data = lista_de_valores, columns=["Data","Preço"])
@@ -198,7 +200,12 @@ def make_data_frame(lista_de_valores):
 lista_historico = []
 # @st.cache_data(show_spinner=False)
 def add_historico(historico):
-    lista_historico.insert(0,historico)
+    if historico not in lista_historico:
+        if len(lista_historico) < 50:
+            lista_historico.insert(0,historico)
+        else:
+            lista_historico.pop()
+            lista_historico.insert(0,historico)
     # print(lista_historico)
 # @st.cache_data(show_spinner=False)
 def get_historico():
